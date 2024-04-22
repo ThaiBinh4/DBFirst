@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BTEFNhanVienPhongBanCongtyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CONGTY">
+          <Key>
+            <PropertyRef Name="idcty" />
+          </Key>
+          <Property Name="idcty" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="tencty" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NhanVien">
+          <Key>
+            <PropertyRef Name="idnhanvien" />
+          </Key>
+          <Property Name="idnhanvien" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="tennhanvien" Type="nvarchar" MaxLength="50" />
+          <Property Name="tuoi" Type="int" />
+          <Property Name="idphongban" Type="char" MaxLength="4" />
+        </EntityType>
+        <EntityType Name="phongban">
+          <Key>
+            <PropertyRef Name="idphongban" />
+          </Key>
+          <Property Name="idphongban" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="tenphongban" Type="nvarchar" MaxLength="50" />
+          <Property Name="idcongty" Type="char" MaxLength="4" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__NhanVien__idphon__3C69FB99">
+          <End Role="phongban" Type="Self.phongban" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="phongban">
+              <PropertyRef Name="idphongban" />
+            </Principal>
+            <Dependent Role="NhanVien">
+              <PropertyRef Name="idphongban" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__phongban__idcong__398D8EEE">
+          <End Role="CONGTY" Type="Self.CONGTY" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="phongban" Type="Self.phongban" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONGTY">
+              <PropertyRef Name="idcty" />
+            </Principal>
+            <Dependent Role="phongban">
+              <PropertyRef Name="idcongty" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BTEFNhanVienPhongBanCongtyModelStoreContainer">
+          <EntitySet Name="CONGTY" EntityType="Self.CONGTY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="phongban" EntityType="Self.phongban" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__NhanVien__idphon__3C69FB99" Association="Self.FK__NhanVien__idphon__3C69FB99">
+            <End Role="phongban" EntitySet="phongban" />
+            <End Role="NhanVien" EntitySet="NhanVien" />
+          </AssociationSet>
+          <AssociationSet Name="FK__phongban__idcong__398D8EEE" Association="Self.FK__phongban__idcong__398D8EEE">
+            <End Role="CONGTY" EntitySet="CONGTY" />
+            <End Role="phongban" EntitySet="phongban" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BTEFNhanVienPhongBanCongtyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CONGTY">
+          <Key>
+            <PropertyRef Name="idcty" />
+          </Key>
+          <Property Name="idcty" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="tencty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="phongbans" Relationship="Self.FK__phongban__idcong__398D8EEE" FromRole="CONGTY" ToRole="phongban" />
+        </EntityType>
+        <EntityType Name="NhanVien">
+          <Key>
+            <PropertyRef Name="idnhanvien" />
+          </Key>
+          <Property Name="idnhanvien" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="tennhanvien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tuoi" Type="Int32" />
+          <Property Name="idphongban" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="phongban" Relationship="Self.FK__NhanVien__idphon__3C69FB99" FromRole="NhanVien" ToRole="phongban" />
+        </EntityType>
+        <EntityType Name="phongban">
+          <Key>
+            <PropertyRef Name="idphongban" />
+          </Key>
+          <Property Name="idphongban" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="tenphongban" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="idcongty" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="CONGTY" Relationship="Self.FK__phongban__idcong__398D8EEE" FromRole="phongban" ToRole="CONGTY" />
+          <NavigationProperty Name="NhanViens" Relationship="Self.FK__NhanVien__idphon__3C69FB99" FromRole="phongban" ToRole="NhanVien" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__phongban__idcong__398D8EEE">
+          <End Role="CONGTY" Type="Self.CONGTY" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="phongban" Type="Self.phongban" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONGTY">
+              <PropertyRef Name="idcty" />
+            </Principal>
+            <Dependent Role="phongban">
+              <PropertyRef Name="idcongty" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__NhanVien__idphon__3C69FB99">
+          <End Role="phongban" Type="Self.phongban" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="phongban">
+              <PropertyRef Name="idphongban" />
+            </Principal>
+            <Dependent Role="NhanVien">
+              <PropertyRef Name="idphongban" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BTEFNhanVienPhongBanCongtyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CONGTies" EntityType="Self.CONGTY" />
+          <EntitySet Name="NhanViens" EntityType="Self.NhanVien" />
+          <EntitySet Name="phongbans" EntityType="Self.phongban" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK__phongban__idcong__398D8EEE" Association="Self.FK__phongban__idcong__398D8EEE">
+            <End Role="CONGTY" EntitySet="CONGTies" />
+            <End Role="phongban" EntitySet="phongbans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__NhanVien__idphon__3C69FB99" Association="Self.FK__NhanVien__idphon__3C69FB99">
+            <End Role="phongban" EntitySet="phongbans" />
+            <End Role="NhanVien" EntitySet="NhanViens" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BTEFNhanVienPhongBanCongtyModelStoreContainer" CdmEntityContainer="BTEFNhanVienPhongBanCongtyEntities">
+          <EntitySetMapping Name="CONGTies">
+            <EntityTypeMapping TypeName="BTEFNhanVienPhongBanCongtyModel.CONGTY">
+              <MappingFragment StoreEntitySet="CONGTY">
+                <ScalarProperty Name="idcty" ColumnName="idcty" />
+                <ScalarProperty Name="tencty" ColumnName="tencty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NhanViens">
+            <EntityTypeMapping TypeName="BTEFNhanVienPhongBanCongtyModel.NhanVien">
+              <MappingFragment StoreEntitySet="NhanVien">
+                <ScalarProperty Name="idnhanvien" ColumnName="idnhanvien" />
+                <ScalarProperty Name="tennhanvien" ColumnName="tennhanvien" />
+                <ScalarProperty Name="tuoi" ColumnName="tuoi" />
+                <ScalarProperty Name="idphongban" ColumnName="idphongban" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="phongbans">
+            <EntityTypeMapping TypeName="BTEFNhanVienPhongBanCongtyModel.phongban">
+              <MappingFragment StoreEntitySet="phongban">
+                <ScalarProperty Name="idphongban" ColumnName="idphongban" />
+                <ScalarProperty Name="tenphongban" ColumnName="tenphongban" />
+                <ScalarProperty Name="idcongty" ColumnName="idcongty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BTEFNhanVienPhongBanCongtyModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
